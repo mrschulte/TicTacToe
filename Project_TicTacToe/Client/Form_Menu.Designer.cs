@@ -43,6 +43,7 @@
             this.btn_join.TabIndex = 0;
             this.btn_join.Text = "Beitreten";
             this.btn_join.UseVisualStyleBackColor = true;
+            this.btn_join.Click += new System.EventHandler(this.btn_join_Click);
             // 
             // txtBx_ip
             // 
@@ -80,7 +81,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(214, 182);
+            this.ClientSize = new System.Drawing.Size(214, 167);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtBx_port);
             this.Controls.Add(this.label1);
