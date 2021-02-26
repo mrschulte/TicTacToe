@@ -31,11 +31,11 @@ namespace Server
 
         static void Main(string[] args)
         {
-            while(true)
+            setup();
+            while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Server-Setup started...");
-                setup();
                 Console.WriteLine("Server is starting...");
                 startServer();
             }
@@ -68,7 +68,12 @@ namespace Server
                     if (playerCounter == 3)
                     {
                         Console.WriteLine("Game is starting");
+                        while(listenerSocket.Connected)
+                        {
+
+                        }
                         break;
+                       
                     }
 
                     listenerSocket.Listen(10);
@@ -78,7 +83,17 @@ namespace Server
                     newPlayer_thread.Name = playerCounter.ToString();
                     socketList.Add(playerCounter, clientSocket);
                     newPlayer_thread.Start();
-                    playerCounter++;                    
+                    playerCounter++;
+                    
+                    if(playerCounter == 3)
+                    {
+                        Console.WriteLine("Game is starting");
+                        while(playerCounter == 3)
+                        {
+
+                        }
+                        break;
+                    }
                 }
 
 
@@ -138,19 +153,37 @@ namespace Server
                             int box = Convert.ToInt32(data[0].ToString());
                             int player = Convert.ToInt32(data[2].ToString());
 
-                            if(checkIfWin(box, player))
+                            Console.WriteLine("Spieler: " + player + " hat Feld " + box + " geklickt");
+                            if (checkIfWin(box, player))
                             {
                                 sendToAll("[WIN]" + player + ";" + box + "[MOVE]");
                             }
                             else
                             {
-                                sendToAll(player + ";" + box + "[MOVE]");
+                                Console.WriteLine("kein win");
+                                string msg = "";
+                                if((boxes1.Count + boxes2.Count) == 9)
+                                {
+                                    msg = "[NOWIN]" + player + "; " + box + "[MOVE]";
+                                }
+                                else
+                                {
+                                    msg = player + ";" + box + "[MOVE]";
+                                }
+                                sendToAll(msg);
+                                Console.WriteLine("gesendet");
                             }
 
                             break;
                         }
+                        else
+                        if(data.Contains("[RESTART]"))
+                        {
+                            playerCounter = 1;
+                        }
                     }
 
+                    Console.WriteLine(data);
                     data = "";
                 }
             }

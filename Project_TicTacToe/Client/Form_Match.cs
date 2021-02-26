@@ -16,20 +16,26 @@ namespace Client
         public List<int> clickedBoxes;
         private ServerCommunication serverCom;
 
+        public bool allowed { get; set; }
+
         public Form_Match(int player_id, ServerCommunication serverComm)
         {
             InitializeComponent();
             clickedBoxes = new List<int>();
             this.serverCom = serverComm;
             this.player_id = player_id;
-            
-            if(player_id == 1)
+
+            serverCom.lobby.Invoke((MethodInvoker)delegate { serverCom.lobby.Close(); });
+
+            if (player_id == 1)
             {
                 showMessage("Du bist dran!");
+                allowed = true;
             }
             else
             {
                 showMessage("Spieler 1 ist dran");
+                allowed = false;
             }
         }
 
@@ -41,152 +47,200 @@ namespace Client
         public void changeBox(Color color, int box)
         {
             Control[] con = Controls.Find("feld" + box, false);
-            PictureBox picbox = (PictureBox)con[0];
+            PictureBox picbox = (PictureBox) con[0];
             picbox.BackColor = color;
+        }
 
+        public void changeState()
+        {
+            if(allowed)
+            {
+                allowed = false;
+                if(player_id == 1)
+                {
+                    showMessage("Spieler 2 ist dran");
+                }
+                else
+                {
+                    showMessage("Spieler 1 ist dran");
+                }
+            }
+            else
+            {
+                allowed = true;
+                showMessage("Du bist dran");
+            }
         }
 
         private void feld1_Click(object sender, EventArgs e)
         {
-            if(!clickedBoxes.Contains(1))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(1))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("1;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(1);
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("1;" + player_id + ";[MOVE]"));
+                        System.Diagnostics.Debug.WriteLine("Sent");
+                        clickedBoxes.Add(1);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
 
         private void feld2_Click(object sender, EventArgs e)
         {
-            if (!clickedBoxes.Contains(2))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(2))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("2;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(2);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("2;" + player_id + ";[MOVE]"));
+                        clickedBoxes.Add(2);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
 
         private void feld3_Click(object sender, EventArgs e)
         {
-            if (!clickedBoxes.Contains(3))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(3))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("3;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(3);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("3;" + player_id + ";[MOVE]"));
+                        clickedBoxes.Add(3);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
 
         private void feld4_Click(object sender, EventArgs e)
         {
-            if (!clickedBoxes.Contains(4))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(4))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("4;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(4);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("4;" + player_id + ";[MOVE]"));
+                        clickedBoxes.Add(4);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
 
         private void feld5_Click(object sender, EventArgs e)
         {
-            if (!clickedBoxes.Contains(5))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(5))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("5;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(5);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("5;" + player_id + ";[MOVE]"));
+                        clickedBoxes.Add(5);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
 
         private void feld6_Click(object sender, EventArgs e)
         {
-            if (!clickedBoxes.Contains(6))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(6))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("6;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(6);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("6;" + player_id + ";[MOVE]"));
+                        clickedBoxes.Add(6);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
 
         private void feld7_Click(object sender, EventArgs e)
         {
-            if (!clickedBoxes.Contains(7))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(7))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("7;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(7);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("7;" + player_id + ";[MOVE]"));
+                        clickedBoxes.Add(7);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
 
         private void feld8_Click(object sender, EventArgs e)
         {
-            if (!clickedBoxes.Contains(8))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(8))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("8;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(8);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("8;" + player_id + ";[MOVE]"));
+                        clickedBoxes.Add(8);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
 
         private void feld9_Click(object sender, EventArgs e)
         {
-            if (!clickedBoxes.Contains(9))
+            if (allowed)
             {
-                try
+                if (!clickedBoxes.Contains(9))
                 {
-                    serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("9;" + player_id + ";[MOVE]"));
-                    clickedBoxes.Add(9);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        serverCom.playerSocket.Send(Encoding.ASCII.GetBytes("9;" + player_id + ";[MOVE]"));
+                        clickedBoxes.Add(9);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } 
             }
         }
     }

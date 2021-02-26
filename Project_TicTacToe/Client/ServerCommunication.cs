@@ -55,6 +55,7 @@ namespace Client
                 byte[] bytes = new byte[1024];
                 string data = "";
                 int player_id = 0;
+
                 while (true)
                 {
 
@@ -85,27 +86,40 @@ namespace Client
                         {
                             System.Diagnostics.Debug.WriteLine("Game starting...");
                             match = new Form_Match(player_id, this);
-                            lobby.Invoke((MethodInvoker)delegate { lobby.Hide(); });
-                            match.ShowDialog();
-                            lobby.Invoke((MethodInvoker)delegate { lobby.Close(); });
+                            new Thread(() => match.ShowDialog()).Start();
                             break;
                         }
                         else
                         if(data.Contains("[MOVE]"))
                         {
-                            
                             if(data.Contains("[WIN]"))
                             {
+                                System.Diagnostics.Debug.WriteLine(data);
                                 int player = Convert.ToInt32(data[5].ToString());
                                 int box = Convert.ToInt32(data[7].ToString());
                                 updateBoxes(player, box);
+                                playerSocket.Send(Encoding.ASCII.GetBytes("[RESTART]"));
+                                playerSocket.Close();
+                                Application.Restart();
+                            }
+                            else
+                            if(data.Contains("[NOWIN]"))
+                            {
+                                int player = Convert.ToInt32(data[7].ToString());
+                                int box = Convert.ToInt32(data[9].ToString());
+                                updateBoxes(player, box);
+                                playerSocket.Send(Encoding.ASCII.GetBytes("[RESTART]"));
+                                Application.Restart();
                             }
                             else
                             {
+                                System.Diagnostics.Debug.WriteLine("hei" + data);
                                 int player = Convert.ToInt32(data[0].ToString());
                                 int box = Convert.ToInt32(data[2].ToString());
                                 updateBoxes(player, box);
+                                match.Invoke((MethodInvoker)delegate { match.changeState(); });
                             }
+                            break;
                         }
                     }
                     data = "";
@@ -120,9 +134,9 @@ namespace Client
 
         private void updateBoxes(int player, int box)
         {
-            if(player == 1)
+            if (player == 1)
             {
-                if(!match.clickedBoxes.Contains(box))
+                if (!match.clickedBoxes.Contains(box))
                 {
                     match.clickedBoxes.Add(box);
                 }
