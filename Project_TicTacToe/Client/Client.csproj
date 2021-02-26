@@ -66,8 +66,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerCommunication.cs" />
     <EmbeddedResource Include="Form_Lobby.resx">
       <DependentUpon>Form_Lobby.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Match.resx">
+      <DependentUpon>Form_Match.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Menu.resx">
       <DependentUpon>Form_Menu.cs</DependentUpon>

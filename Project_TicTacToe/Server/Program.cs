@@ -24,20 +24,29 @@ namespace Server
         private static IPAddress ipAdress;
         private static IPEndPoint endPoint;
         private static Socket listenerSocket;
-        
+
+        private static List<int> boxes1;
+        private static List<int> boxes2;
+
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Server-Setup started...");
-            setup();
-            Console.WriteLine("Server is starting...");
-            startServer();
+            while(true)
+            {
+                Console.Clear();
+                Console.WriteLine("Server-Setup started...");
+                setup();
+                Console.WriteLine("Server is starting...");
+                startServer();
+            }
             
         }
 
         private static void setup()
         {
             playerCounter = 1;
+            boxes1 = new List<int>();
+            boxes2 = new List<int>();
             socketList = new Dictionary<int, Socket>();
             newPlayerThreadPointer = new NewPlayerThread(communicationThread);
 
@@ -58,8 +67,7 @@ namespace Server
                 {
                     if (playerCounter == 3)
                     {
-                        Console.WriteLine("Ready");
-                        startGame();
+                        Console.WriteLine("Game is starting");
                         break;
                     }
 
@@ -125,8 +133,19 @@ namespace Server
                             break;
                         }
                         else
-                        if (data.Contains(""))
+                        if (data.Contains("[MOVE]"))
                         {
+                            int box = Convert.ToInt32(data[0].ToString());
+                            int player = Convert.ToInt32(data[2].ToString());
+
+                            if(checkIfWin(box, player))
+                            {
+                                sendToAll("[WIN]" + player + ";" + box + "[MOVE]");
+                            }
+                            else
+                            {
+                                sendToAll(player + ";" + box + "[MOVE]");
+                            }
 
                             break;
                         }
@@ -141,9 +160,105 @@ namespace Server
             }
         }
 
-        private static void startGame()
+        private static bool checkIfWin(int box, int player)
         {
-            //Sending message to start the game
+            if(player == 1)
+            {
+                boxes1.Add(box);
+
+                if( boxes1.Contains(1) && boxes1.Contains(2) && boxes1.Contains(3) )
+                {
+                    return true;
+                }
+                else
+                if( boxes1.Contains(4) && boxes1.Contains(5) && boxes1.Contains(6) )
+                {
+                    return true;
+                }
+                else
+                if( boxes1.Contains(7) && boxes1.Contains(8) && boxes1.Contains(9) )
+                {
+                    return true;
+                }
+                else
+                if( boxes1.Contains(1) && boxes1.Contains(4) && boxes1.Contains(7) )
+                {
+                    return true;
+                }
+                else
+                if( boxes1.Contains(2) && boxes1.Contains(5) && boxes1.Contains(8) )
+                {
+                    return true;
+                }
+                else
+                if( boxes1.Contains(3) && boxes1.Contains(6) && boxes1.Contains(9) )
+                {
+                    return true;
+                }
+                else
+                if( boxes1.Contains(1) && boxes1.Contains(5) && boxes1.Contains(9) )
+                {
+                    return true;
+                }
+                else
+                if( boxes1.Contains(3) && boxes1.Contains(5) && boxes1.Contains(7) )
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                boxes2.Add(box);
+
+                if (boxes2.Contains(1) && boxes2.Contains(2) && boxes2.Contains(3))
+                {
+                    return true;
+                }
+                else
+                if (boxes2.Contains(4) && boxes2.Contains(5) && boxes2.Contains(6))
+                {
+                    return true;
+                }
+                else
+                if (boxes2.Contains(7) && boxes2.Contains(8) && boxes2.Contains(9))
+                {
+                    return true;
+                }
+                else
+                if (boxes2.Contains(1) && boxes2.Contains(4) && boxes2.Contains(7))
+                {
+                    return true;
+                }
+                else
+                if (boxes2.Contains(2) && boxes2.Contains(5) && boxes2.Contains(8))
+                {
+                    return true;
+                }
+                else
+                if (boxes2.Contains(3) && boxes2.Contains(6) && boxes2.Contains(9))
+                {
+                    return true;
+                }
+                else
+                if (boxes2.Contains(1) && boxes2.Contains(5) && boxes2.Contains(9))
+                {
+                    return true;
+                }
+                else
+                if (boxes2.Contains(3) && boxes2.Contains(5) && boxes2.Contains(7))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
         }
     }
 }

@@ -21,13 +21,8 @@ namespace Client
     public partial class Form_Menu : Form
     {
         //private IPHostEntry host;
-        private IPAddress ipAdress;
-        private IPEndPoint endPoint;
-        private Socket playerSocket;
-        
 
-        private delegate void ListeningThread();
-        private ListeningThread listeningThreadPtr;
+        ServerCommunication serverComm;
 
         private string ipAdress_string { get; set; }
         private int port { get; set; }
@@ -70,7 +65,7 @@ namespace Client
         {
             try
             {
-                Form_Lobby lobby = new Form_Lobby(playerSocket, endPoint);
+                Form_Lobby lobby = new Form_Lobby(serverComm);
                 this.Hide();
                 lobby.ShowDialog();
                 this.Close();
@@ -85,20 +80,19 @@ namespace Client
         {
             if (checkConnectionSettings())
             {
-                ipAdress = IPAddress.Parse(ipAdress_string);
-                endPoint = new IPEndPoint(ipAdress, port);
-                playerSocket = new Socket(ipAdress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                serverComm = new ServerCommunication()
+                {
+                    ipAdresse_string = ipAdress_string,
+                    port = port
+                };
+
+                serverComm.setup();
             }
             else
             {
                 MessageBox.Show("Bitte überprüfe deine Eingabe");
                 return;
             }            
-        }
-
-        private void startListening()
-        {
-            
         }
 
         private void btn_join_Click(object sender, EventArgs e)
