@@ -24,7 +24,7 @@ namespace Client
         private IPAddress ipAdress;
         private IPEndPoint endPoint;
         private Socket playerSocket;
-        private Thread listeningThread;
+        
 
         private delegate void ListeningThread();
         private ListeningThread listeningThreadPtr;
@@ -66,14 +66,14 @@ namespace Client
             }
         }
 
-        private void startClient()
+        private void startLobby()
         {
             try
             {
-
-                playerSocket.Connect(endPoint);
-                listeningThread = new Thread(listeningThreadPtr.Invoke);
-                listeningThread.Start();
+                Form_Lobby lobby = new Form_Lobby(playerSocket, endPoint);
+                this.Hide();
+                lobby.ShowDialog();
+                this.Close();
 
             }catch(Exception ex)
             {
@@ -85,8 +85,6 @@ namespace Client
         {
             if (checkConnectionSettings())
             {
-                listeningThreadPtr = new ListeningThread(startListening);
-
                 ipAdress = IPAddress.Parse(ipAdress_string);
                 endPoint = new IPEndPoint(ipAdress, port);
                 playerSocket = new Socket(ipAdress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -100,13 +98,13 @@ namespace Client
 
         private void startListening()
         {
-            MessageBox.Show("Connected");
+            
         }
 
         private void btn_join_Click(object sender, EventArgs e)
         {
             setup();
-            startClient();
+            startLobby();
         }
     }
 }

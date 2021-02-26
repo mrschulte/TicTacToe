@@ -56,8 +56,9 @@ namespace Server
 
                 while (true)
                 {
-                    if (playerCounter == 2)
+                    if (playerCounter == 3)
                     {
+                        Console.WriteLine("Ready");
                         startGame();
                         break;
                     }
@@ -80,6 +81,22 @@ namespace Server
             }
         }
 
+        private static void sendToAll(string message)
+        {
+            try
+            {
+                for (int i = 1; i < 3; i++)
+                {
+                    Socket player = null;
+                    socketList.TryGetValue(i, out player);
+                    player.Send(Encoding.ASCII.GetBytes(message));
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         private static void communicationThread()
         {
             try
@@ -92,7 +109,7 @@ namespace Server
 
                 socketList.TryGetValue(player_id, out playerSocket);
 
-                playerSocket.Send(Encoding.ASCII.GetBytes("[SETUP]" + player_id.ToString() + ";")); // First message with information for client
+                playerSocket.Send(Encoding.ASCII.GetBytes(player_id.ToString() + "[SETUP]")); // First message with information for client
 
                 while(true)
                 {
@@ -102,9 +119,9 @@ namespace Server
                         int recievedBytes = playerSocket.Receive(bytes);
                         data += Encoding.ASCII.GetString(bytes, 0, recievedBytes);
 
-                        if (data.Contains("[MOVE]"))
+                        if(data.Contains("[READY]"))
                         {
-
+                            sendToAll("[START]");
                             break;
                         }
                         else

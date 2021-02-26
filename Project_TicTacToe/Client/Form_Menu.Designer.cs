@@ -51,6 +51,7 @@
             this.txtBx_ip.Name = "txtBx_ip";
             this.txtBx_ip.Size = new System.Drawing.Size(132, 20);
             this.txtBx_ip.TabIndex = 1;
+            this.txtBx_ip.Text = "192.168.178.39";
             // 
             // label1
             // 
@@ -76,6 +77,7 @@
             this.txtBx_port.Name = "txtBx_port";
             this.txtBx_port.Size = new System.Drawing.Size(132, 20);
             this.txtBx_port.TabIndex = 3;
+            this.txtBx_port.Text = "11000";
             // 
             // Form_Menu
             // 

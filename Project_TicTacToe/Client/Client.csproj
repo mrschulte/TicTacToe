@@ -46,6 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form_Lobby.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Lobby.Designer.cs">
+      <DependentUpon>Form_Lobby.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Match.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Match.Designer.cs">
+      <DependentUpon>Form_Match.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +66,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form_Lobby.resx">
+      <DependentUpon>Form_Lobby.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Menu.resx">
       <DependentUpon>Form_Menu.cs</DependentUpon>
     </EmbeddedResource>
