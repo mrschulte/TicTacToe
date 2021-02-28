@@ -44,11 +44,54 @@ namespace Client
             label_message.Text = message;
         }
 
+        public void setWinMessage()
+        {
+            label_end.Text = "Du hast gewonnen!";
+        }
+
+        public void setLooseMessage()
+        {
+            label_end.Text = "Du hast verloren!";
+        }
+
+        public void setNoWinMessage()
+        {
+            label_end.Text = "Keiner hat gewonnen!";
+        }
+
+        public void showButton()
+        {
+            btn_rejoin.Visible = true;
+        }
+
         public void changeBox(Color color, int box)
         {
             Control[] con = Controls.Find("feld" + box, false);
             PictureBox picbox = (PictureBox) con[0];
             picbox.BackColor = color;
+        }
+
+        public void newGame()
+        {
+            for(int i = 1; i < 10; i++)
+            {
+                Control[] con = Controls.Find("feld" + i, false);
+                PictureBox picbox = (PictureBox)con[0];
+                picbox.BackColor = Color.Gray;
+            }
+            clickedBoxes.Clear();
+            btn_rejoin.Visible = false;
+            label_end.Text = "";
+            if (player_id == 1)
+            {
+                showMessage("Du bist dran!");
+                allowed = true;
+            }
+            else
+            {
+                showMessage("Spieler 1 ist dran");
+                allowed = false;
+            }
         }
 
         public void changeState()
@@ -242,6 +285,11 @@ namespace Client
                     }
                 } 
             }
+        }
+
+        private void btn_rejoin_Click(object sender, EventArgs e)
+        {
+            serverCom.restart();
         }
     }
 }

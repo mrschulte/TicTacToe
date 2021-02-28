@@ -164,7 +164,7 @@ namespace Server
                                 string msg = "";
                                 if((boxes1.Count + boxes2.Count) == 9)
                                 {
-                                    msg = "[NOWIN]" + player + "; " + box + "[MOVE]";
+                                    msg = "[NOWIN]" + player + ";" + box + "[MOVE]";
                                 }
                                 else
                                 {
@@ -180,6 +180,9 @@ namespace Server
                         if(data.Contains("[RESTART]"))
                         {
                             playerCounter = 1;
+                            boxes1.Clear();
+                            boxes2.Clear();
+                            break;
                         }
                     }
 

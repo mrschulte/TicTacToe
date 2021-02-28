@@ -39,6 +39,8 @@
             this.feld9 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label_message = new System.Windows.Forms.Label();
+            this.label_end = new System.Windows.Forms.Label();
+            this.btn_rejoin = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.feld1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.feld2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.feld3)).BeginInit();
@@ -165,11 +167,32 @@
             this.label_message.Size = new System.Drawing.Size(167, 37);
             this.label_message.TabIndex = 10;
             // 
+            // label_end
+            // 
+            this.label_end.AutoSize = true;
+            this.label_end.Location = new System.Drawing.Point(35, 20);
+            this.label_end.Name = "label_end";
+            this.label_end.Size = new System.Drawing.Size(0, 13);
+            this.label_end.TabIndex = 11;
+            // 
+            // btn_rejoin
+            // 
+            this.btn_rejoin.Location = new System.Drawing.Point(38, 312);
+            this.btn_rejoin.Name = "btn_rejoin";
+            this.btn_rejoin.Size = new System.Drawing.Size(75, 23);
+            this.btn_rejoin.TabIndex = 12;
+            this.btn_rejoin.Text = "Neues Spiel";
+            this.btn_rejoin.UseVisualStyleBackColor = true;
+            this.btn_rejoin.Visible = false;
+            this.btn_rejoin.Click += new System.EventHandler(this.btn_rejoin_Click);
+            // 
             // Form_Match
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(573, 356);
+            this.Controls.Add(this.btn_rejoin);
+            this.Controls.Add(this.label_end);
             this.Controls.Add(this.label_message);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.feld9);
@@ -210,5 +233,7 @@
         private System.Windows.Forms.PictureBox feld9;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label_message;
+        private System.Windows.Forms.Label label_end;
+        private System.Windows.Forms.Button btn_rejoin;
     }
 }
